@@ -1,0 +1,29 @@
+<html>
+    <body>
+<h1>POST FORM</h1>
+<div class="form-group">
+    <div id="<%=data[0].Id%>" class="modal">
+<form action = "/update/<%=data[0].id%>" method = "POST"  data-parsley-validate="">
+    First Name: <input type = "text" name = "first_name" value="<%=data[0].first_name %> "  data-parsley-required > <br> <br>
+    <% if(locals.errors && locals.errors.first_name){ %>
+        <div class="error"><%= errors.first_name[0] %></div>
+    <% } %>
+    Last Name: <input type = "text" name = "last_name"  value="<%=data[0].last_name %> " data-parsley-required > <br> <br>
+    <% if(locals.errors && locals.errors.last_name){ %>
+        <div class="error"><%= errors.last_name[0] %></div>
+    <% } %>
+    Email Id: <input type = "email" name = "email"  value="<%=data[0].email %> " data-parsley-required data-parsley-type="email"> <br> <br>
+    <% if(locals.errors && locals.errors.email){ %>
+        <div class="error"><%= errors.email[0] %></div>
+    <% } %>
+
+    Phone No: <input type = "phone" name = "phone"  value="<%=data[0].phone %> " data-parsley-required data-parsley-type="phone"> <br> <br>
+    <% if(locals.errors && locals.errors.phone){ %>
+        <div class="error"><%= errors.phone[0] %></div>
+    <% } %>
+   
+    <input type="submit" value="submit">
+</form>
+</div>
+</body>
+</html>

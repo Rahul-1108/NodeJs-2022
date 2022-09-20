@@ -1,0 +1,210 @@
+<html>
+    <head>
+        <!doctype html>
+        <html lang="en">
+          <head>
+            <!-- Required meta tags -->
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+            <!-- Bootstrap CSS -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+          </head>
+          <body>
+            
+        
+            <!-- Optional JavaScript -->
+            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+          </body>
+        </html>
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.9.2/parsley.min.js"></script>
+        
+        
+        <title>Post Form</title>
+
+        <style>
+            .error{
+                color: red;
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+
+
+        .parsley-errors-list li {
+            color: red;
+            list-style: none;
+        }
+
+      @media (min-width: 1025px) {
+        .h-custom {
+       height: 100vh !important;
+     }
+    } 
+    </style>
+    </head>
+
+    <body>
+      <form action = "http://localhost:4000/process_post" method = "POST"  data-parsley-validate="" enctype="multipart/form-data">
+
+        <section class="h-100 h-custom" style="background-color: #8fc4b7;">
+            <div class="container py-5 h-100">
+              <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-lg-8 col-xl-6">
+                  <div class="card rounded-3">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp"
+                      class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
+                      alt="Sample photo">
+                    <div class="card-body p-4 p-md-5">
+                      <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Form</h3>
+          
+                      <form class="px-md-2">
+                      <form action = "http://localhost:5000/process_post" method = "POST"  data-parsley-validate="" enctype="multipart/form-data">
+
+          
+                        <div class="form-outline mb-4">
+                          <label class="form-label" for="form3Example1q">First Name</label>
+                          <input type="text" name = "first_name" data-parsley-required  id="form3Example1q" class="form-control" />
+                          <% if(locals.errors && locals.errors.first_name){ %>
+                          <div class="error"><%= errors.first_name[0] %></div>
+                          <% } %>
+                          </div>
+                        
+
+                        <div class="form-outline mb-4">
+                          <label class="form-label" for="form3Example1q">Last Name</label>
+                          <input type="text" id="form3Example1q" class="form-control" name = "last_name"  data-parsley-required />
+                          <% if(locals.errors && locals.errors.last_name){ %>
+                            <div class="error"><%= errors.last_name[0] %></div>
+                        <% } %>
+                        </div>
+           
+                      
+                        <div class="form-outline mb-4">
+                          <label class="form-label" for="form3Example1q">Email id</label>
+                          <input type="text" id="form3Example1q" class="form-control" name = "email"  data-parsley-required data-parsley-type="email" />
+                          <% if(locals.errors && locals.errors.email){ %>
+                            <div class="error"><%= errors.email[0] %></div>
+                        <% } %>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                          <label class="form-label">Password</label>
+                          <input type="password"  class="form-control" name = "password"  data-parsley-required data-parsley-type="password" />
+                          <% if(locals.errors && locals.errors.password){ %>
+                            <div class="error"><%= errors.password[0] %></div>
+                        <% } %>
+                        </div>
+          
+
+                        <div class="form-outline mb-4">
+                          <label class="form-label" for="form3Example1q">Phone No</label>
+                          <input type="text" id="form3Example1q" class="form-control" name = "phone"  data-parsley-required data-parsley-type="phone" />
+                          <% if(locals.errors && locals.errors.phone){ %>
+                            <div class="error"><%= errors.phone[0] %></div>
+                        <% } %>
+            
+                        </div>
+                        
+                       
+                          
+                        
+                        <div class="input-group">
+                        <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                    
+                        </div>
+                        <div class="custom-file">
+                        <input type="file" name = "file" size="50" class="custom-file-input" id="inputGroupFile01"
+                        aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        <% if(locals.errors && locals.errors.file){ %>
+                          <div class="error"><%= errors.file[0] %></div>
+                      <% } %>
+                        </div>
+                        </div><br><br>
+                     
+                           
+          
+                        <button type="submit" value="submit" class="btn btn-success btn-lg mb-1">Submit</button>
+          
+                      </form>
+          
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section> <br><br><br><br><br><br>
+
+
+        
+        
+
+
+
+
+
+
+
+
+
+<!--         // Table in Database -->
+    
+            <table class="table table-striped table-dark" id="myTable" border="1">
+                <thead class="thead-dark">
+            
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th>first_name</th>
+                <th>last_name</th>
+                <th>email</th>
+                <th>password</th>
+                <th>phone</th>
+                <th>hobby</th>
+                <th>file</th>
+                <th> Update</th>
+                <th> Delete</th>
+                
+                <!-- <th> Update</th>
+                <th> Delete</th> -->
+
+
+            </tr>
+        </thead>
+        <% for (var i = 0; i < data.length; i++){ %>
+            <tr>
+                <td><%= data[i].id %> </td>
+                <td><%= data[i].first_name %> </td>
+                <td><%= data[i].last_name %> </td>
+                <td><%= data[i].email %> </td>
+                <td><%= data[i].password %> </td>
+                <td><%= data[i].phone %> </td>
+                <td><%= data[i].hobby %> </td>
+
+                <td border="1">
+                
+                <img src="/uploads/<%= data[i].file %> " alt="" height="100" width="100">
+                <td><a href="/edit/<%= data[i].id%>"><button class="btn btn-link">Update</button></a></td> 
+                <td><a href="/delete-user/<%=data[i].id%>"><button class="btn btn-link">Delete</button></a></td>
+                
+                
+                </td>
+
+                
+
+
+            </tr>
+      <% }  %>   
+
+        </table>
+
+
+        
