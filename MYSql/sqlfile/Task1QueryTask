@@ -1,0 +1,190 @@
+User
+1. ID
+2. Name
+3. mobile_number
+4. role [customer,supplier]
+5. is_active
+6. updatedate
+7. insertdate
+
+Product
+1. id(PK)
+2. product_name       
+3. supplier_id(FK)
+4. quntity
+5. Price
+6. is_active
+7. updatedate
+8. insertdate
+
+Order 
+1. id
+2. order id
+3. customer id
+4. product id(FK)
+5. Shipper id(FK)
+6. order date
+7. status [Pending, Deliverd, Cancelled]
+8. is_active
+9. updatedate
+10. insertdate
+
+Add Table
+Shipper
+1. id(PK)
+2. shipper name
+3. Phone
+4. is_active
+5. updatedate
+6. insertdate
+
+Add Table
+Supplier
+1. id(PK)
+2. SupplierName
+3. City
+4. Country
+5. PostalCode
+6. Phone
+7. is_active
+8. updatedate
+9. insertdate
+
+Query
+
+1. 2nd highest price product with subquery
+-->      
+select *from product 
+group by price 
+order by price desc limit 1,1;
+
+
+2. Product details with supplier detsils
+--> SELECT * FROM product LEFT JOIN Supplier ON product.supplier_id = Supplier.supplier_id;
+
+3. Order details with customer name and shipper name
+
+4. Product wise order count query
+
+SELECT COUNT(Order_ID), product_name FROM Order_details JOIN product ON Order_details.product_id = product.product_id GROUP BY product_name HAVING COUNT(Order_ID);
+
+
+5. Get list of order whose status not in Cancelled
+
+SELECT * from Order_details WHERE status_s != "Cancelled";
+
+6. Get list of customer with total number of order
+
+7. Get list of customer with total number of order and count greater then 5
+
+
+
+
+
+
+
+
+table of user
+
+
+CREATE TABLE `User`(
+    ID BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(50) NOT NULL,
+    mobile_number VARCHAR(20) NOT NULL,
+    role ENUM ('customer','supplier') NOT NULL,
+    is_active BOOLEAN DEFAULT FALSE,
+    updateddate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    insertdate DATE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+
+table of product
+
+CREATE TABLE `product`(
+    `Product_ID` BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `product_name` VARCHAR(50) NOT NULL,
+    `supplier_id` BIGINT NOT NULL,
+    `quntity`SMALLINT(6) NOT NULL,
+    `price` BIGINT NOT NULL,
+    `is_active` BOOLEAN DEFAULT FALSE,
+    `updateddate` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `insertdate` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP
+   
+    );
+    
+table of order
+
+CREATE TABLE `Order`(
+    `Order_ID` BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `customer_id` BIGINT NOT NULL,
+    `product_id` BIGINT NOT NULL,
+    `Shipper_id` BIGINT NOT NULL,
+    `order_date` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `status_s` ENUM('pending','Deliverd','Cancelled'),
+    `is_active` BOOLEAN DEFAULT FALSE,
+    `updateddate` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `insertdate` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(`Order_ID`),
+CONSTRAINT `constraint_1` FOREIGN KEY (`product_id`) REFERENCES product(`product_id`)
+    );
+
+
+
+Product
+
+INSERT INTO `product`( `product_name`, `quntity`, `price`, `is_active`)
+VALUES ('Soap',50,50000,1),
+       ('Soap',51,51000,1),
+       ('Soap',52,52000,1),
+       ('Soap',53,53000,1),
+       ('Soap',54,54000,1);
+       
+       
+
+CREATE TABLE `Supplier`(
+    supplier_id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    Supplier_Name VARCHAR(50) NOT NULL,
+    Supplier_City VARCHAR(20) NOT NULL,
+    Supplier_Country VARCHAR(20) NOT NULL,
+    Supplier_PostalCode VARCHAR(20) NOT NULL,
+    mobile_number VARCHAR(20) NOT NULL,
+    is_active BOOLEAN DEFAULT FALSE,
+    updateddate DATE NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    insertdate DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     CONSTRAINT `customers_123_1` FOREIGN KEY (`supplier_id`) REFERENCES `product`  (`Supplier_id`)
+);
+
+
+       
+       
+       
+       
+Query-1  
+select *from product 
+group by price 
+order by price desc limit 1,1;
+
+
+
+pending:
+ SELECT Order_ID, order_date, Name, Name from Order_details JOIN user ON Order_details.user_id = user.user_id JOIN shipper ON order_details.shipper_id = shipper.shipper_id;
+ 
+ 
+ 
+ 
+ 
+Query-6
+ SELECT COUNT(Order_ID), User_Name FROM Order_details
+ JOIN User ON Order_details.User_ID = User.User_ID
+ GROUP BY User_Name
+ having COUNT(Order_ID);
+ 
+ Error: #1054 - Unknown column 'Order_details.User_ID' in 'on clause'
+Open new phpMyAdmin window
+
+
+
+
+    

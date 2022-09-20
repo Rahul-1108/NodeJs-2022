@@ -1,0 +1,169 @@
+CREATE TABLE user(
+	user_id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
+    user_name varchar(64) NOT NULL,
+    mob_no varchar(15) NOT NULL UNIQUE,
+    user_role enum('customer', 'supplier') NOT NULL,
+    -- is_active enum('Y', 'N') NOT NULL, --
+    is_active smallint(1) NOT NULL,
+    insert_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    PRIMARY KEY (user_id)
+);
+
+CREATE TABLE supplier(
+	Supplier_id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
+    Supplier_name varchar(64) NOT NULL,
+    city varchar(32) NOT NULL,
+    country varchar(32) NOT NULL,
+    postal_code varchar(8) NOT NULL UNIQUE,
+    phone varchar(16) NOT NULL UNIQUE,
+    insert_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    PRIMARY KEY (Supplier_id)
+);
+
+CREATE TABLE shipper(
+	shipper_id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
+    shipper_name varchar(64) NOT NULL,
+    phone varchar(16) NOT NULL UNIQUE,
+    insert_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    PRIMARY KEY (shipper_id)
+);
+
+CREATE TABLE product(
+	product_id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
+    product_name varchar(64) NOT NULL,
+    Supplier_id BIGINT NOT NULL UNIQUE,
+    qty int(8) NOT NULL CHECK (qty > 0),
+    price int(8) NOT NULL,
+    is_active smallint(1) NOT NULL,
+    insert_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    PRIMARY KEY (product_id),
+    FOREIGN KEY (Supplier_id) REFERENCES supplier(Supplier_id)
+);
+
+CREATE TABLE order_details(
+	order_id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
+    user_id BIGINT NOT NULL UNIQUE,
+    product_id BIGINT NOT NULL UNIQUE,
+    shipper_id BIGINT NOT NULL UNIQUE,
+    order_date date NOT NULL,
+    order_status enum('Pending', 'Deliverd', 'Cancelled') NOT NULL,
+    is_active smallint(1) NOT NULL,
+    insert_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    
+    PRIMARY KEY (order_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id),
+    FOREIGN KEY (product_id) REFERENCES product(product_id),
+    FOREIGN KEY (shipper_id) REFERENCES shipper(shipper_id)
+);
+
+// Insert Values
+
+INSERT INTO user(user_id, user_name, mob_no, user_role, is_active)
+values
+(1, "Mahesh", "9632147850", "customer", 0),
+(2, "Suresh", "7896541230", "supplier", 1),
+(3, "Ramesh", "9632147520", "customer", 1),
+(4, "Vinay", "8596741230", "supplier", 0),
+(5, "Kamlesh", "9694827162", "customer", 1);
+
+SELECT * FROM Delivary_Services.user;
+
+
+INSERT INTO supplier(Supplier_id, Supplier_name, city, country, postal_code, phone)
+values
+(1, "Jhon", "New York", "USA", 789654, 9632147850),
+(2, "Roman", "Paris", "England", 123456, 8523647120),
+(3, "Max", "Mosco", "Russia", 741236, 7539142684),
+(4, "David", "Tokyo", "Japan", 852369, 6853214785),
+(5, "Walter", "New Jersy", "United Kingdom", 541369, 8569321473);
+
+SELECT * FROM Delivary_Services.supplier;
+
+
+INSERT INTO shipper(shipper_id, shipper_name, phone)
+values
+(1, "King", 9632147850),
+(2, "Sparky", 8523647120),
+(3, "Smoky", 7539142684),
+(4, "Queen", 6853214785),
+(5, "Elder", 8569321473);
+
+SELECT * FROM Delivary_Services.shipper;
+
+
+INSERT INTO product(product_id, product_name, Supplier_id, qty, price, is_active)
+values
+(1, "T-shirt", 1, 74, 699, 1),
+(2, "Jense", 2, 56, 789, 0),
+(3, "Kurti", 3, 112, 499, 1),
+(4, "Kurta", 4, 21, 561, 0),
+(5, "Dress", 5, 72, 256, 1);
+
+SELECT * FROM Delivary_Services.product;
+
+
+INSERT INTO order_details(order_id, user_id, product_id, shipper_id, order_date, order_status, is_active)
+values
+(1, 1, 1, 1, '2021/12/25', "Deliverd", 1),
+(2, 2, 2, 2, '2022/01/26', "Cancelled", 0),
+(3, 3, 3, 3, '2022/02/28', "Cancelled", 1),
+(4, 4, 4, 4, '2022/03/18', "Deliverd", 0),
+(5, 5, 5, 5, '2022/04/06', "Pending", 1);
+
+SELECT * FROM Delivary_Services.order_details;
+
+
+
+// Queries
+
+1. 2nd highest price product with subquery
+select *from product 
+group by price 
+order by price desc limit 1,1;
+
+2. Product details with supplier detsils
+ SELECT * FROM product LEFT JOIN supplier ON product.Supplier_id = supplier.Supplier_id;
+
+3.Order details with customer name and shipper name
+ SELECT order_id, order_date, user_name, shipper_name from order_details 
+ JOIN user ON order_details.user_id = user.user_id 
+ JOIN shipper ON order_details.shipper_id = shipper.shipper_id;
+
+4. Product wise order count query
+ // https://www.w3schools.com/sql/trysql.asp?filename=trysql_select_having
+ SELECT COUNT(order_id), product_name FROM order_details 
+ JOIN product ON order_details.product_id = product.product_id 
+ GROUP BY product_name 
+ HAVING COUNT(order_id);
+
+5. Get list of order whose status not in Cancelled
+ SELECT * from order_details WHERE order_status != "Cancelled";
+
+6. Get list of customer with total number of order
+ SELECT COUNT(order_id), user_name FROM order_details 
+ JOIN user ON order_details.user_id = user.user_id 
+ GROUP BY user_name 
+ having COUNT(order_id);
+ 
+7. Get list of customer with total number of order and count greater then 5
+SELECT COUNT(order_id), user_name FROM order_details 
+JOIN user ON order_details.user_id = user.user_id 
+GROUP BY user_name 
+having COUNT(order_id) > 5;
+
+
+
+
+
+
+
+

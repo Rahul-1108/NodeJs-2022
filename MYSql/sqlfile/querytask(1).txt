@@ -1,0 +1,94 @@
+User
+1. ID
+2. Name
+3. mobile_number
+4. role [customer,supplier]
+5. is_active
+6. updatedate
+7. insertdate
+
+Product
+1. id(PK)
+2. product_name
+3. supplier_id
+4. quntity
+5. Price
+6. is_active
+7. updatedate
+8. insertdate
+
+Order 
+1. id
+2. order id
+3. customer id
+4. product id(FK)
+5. Shipper id
+6. order date
+7. status [Pending, Deliverd, Cancelled]
+8. is_active
+9. updatedate
+10. insertdate
+
+Query
+1. 2nd highest price product with subquery
+2. Product details with supplier detsils
+3. Order details with customer name and shipper name
+4. Product wise order count query
+5. Get list of order whose status not in Cancelled
+6. Get list of customer with total number of order
+7. Get list of customer with total number of order and count greater then 5
+
+
+
+
+
+
+table of user
+
+
+CREATE TABLE `User`(
+    ID BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(50) NOT NULL,
+    mobile_number VARCHAR(20) NOT NULL,
+    role ENUM ('customer','supplier'),
+    is_active BOOLEAN DEFAULT FALSE,
+    updateddate DATE NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    insertdate DATE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+
+table of product
+
+CREATE TABLE `product`(
+    `Product_ID` BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `product_name` VARCHAR(50) NOT NULL,
+    `supplier_id` BIGINT NOT NULL,
+    `quntity`SMALLINT(6) NOT NULL,
+    `price` BIGINT NOT NULL,
+    `is_active` BOOLEAN DEFAULT FALSE,
+    `updateddate` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `insertdate` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP
+   
+    );
+    
+table of order
+
+CREATE TABLE `Order`(
+    `Order_ID` BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `customer_id` BIGINT NOT NULL,
+    `product_id` BIGINT NOT NULL,
+    `Shipper_id` BIGINT NOT NULL,
+    `order_date` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `status_s` ENUM('pending','Deliverd','Cancelled'),
+    `is_active` BOOLEAN DEFAULT FALSE,
+    `updateddate` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `insertdate` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(`Order_ID`),
+CONSTRAINT `constraint_1` FOREIGN KEY (`product_id`) REFERENCES product(`product_id`)
+    );
+
+
+
+    

@@ -1,0 +1,59 @@
+
+
+//Run Xampp-1
+
+how to open xampp
+ =================================
+go to Downloads and open Terminal
+run command : sudo ./xampp-linux-x64-7.3.33-0-installer.run
+=================================                                                                                                           
+ open another terminal
+run command : sudo /opt/lampp/lampp start
+
+
+
+
+// When services is stop then you can you there is command-2
+
+
+hlink@hlink-System-Product-Name:~/Downloads$ sudo./xampp-linux-x64-7.3.33-0-installer.run
+bash: sudo./xampp-linux-x64-7.3.33-0-installer.run: No such file or directory
+hlink@hlink-System-Product-Name:~/Downloads$ sudo service mysql stop
+[sudo] password for hlink: 
+hlink@hlink-System-Product-Name:~/Downloads$ sudo /opt/lampp/lampp strat
+Usage: lampp <action>
+
+	start         Start XAMPP (Apache, MySQL and eventually others)
+	startapache   Start only Apache
+	startmysql    Start only MySQL
+	startftp      Start only ProFTPD
+
+	stop          Stop XAMPP (Apache, MySQL and eventually others)
+	stopapache    Stop only Apache
+	stopmysql     Stop only MySQL
+	stopftp       Stop only ProFTPD
+
+	reload        Reload XAMPP (Apache, MySQL and eventually others)
+	reloadapache  Reload only Apache
+	reloadmysql   Reload only MySQL
+	reloadftp     Reload only ProFTPD
+
+	restart       Stop and start XAMPP
+	security      Check XAMPP's security
+
+	enablessl     Enable SSL support for Apache
+	disablessl    Disable SSL support for Apache
+
+	backup        Make backup file of your XAMPP config, log and data files
+
+	oci8          Enable the oci8 extenssion
+
+	panel         Starts graphical XAMPP control panel
+
+hlink@hlink-System-Product-Name:~/Downloads$ sudo /opt/lampp/lampp start
+Starting XAMPP for Linux 7.3.33-0...
+XAMPP: Starting Apache...already running.
+XAMPP: Starting MySQL...ok.
+XAMPP: Starting ProFTPD...already running.
+hlink@hlink-System-Product-Name:~/Downloads$ 
+
